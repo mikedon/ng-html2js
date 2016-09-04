@@ -18,6 +18,7 @@
   ],
   "main": "./src/html2js.js",
   "dependencies": {
+    "glob": "^7.0.6",
     "optimist": "*"
   },
   "devDependencies": {

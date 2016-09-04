@@ -19,6 +19,7 @@ var util = require('util');
 
 var TMPL = fs.readFileSync(path.join(__dirname, './template.tmpl'), 'utf-8');
 var SINGLE_MODULE_TMPL = fs.readFileSync(path.join(__dirname, './singleModule.tmpl'), 'utf-8');
+var TMPL_NO_MODULE_LOOKUP = fs.readFileSync(path.join(__dirname, './template-nomodulelookup.tmpl'), 'utf-8');
 
 
 //
@@ -34,7 +35,7 @@ var escapeContent = function(content) {
 // Main script
 //
 
-module.exports = function (fileName, content, moduleName, moduleVar) {
+module.exports = function (fileName, content, moduleName, moduleVar, excludeModuleLookup) {
   var escapedContent = escapeContent(content);
 
   var output = null;
@@ -46,6 +47,8 @@ module.exports = function (fileName, content, moduleName, moduleVar) {
         moduleVar, moduleName,
         moduleVar,
         fileName, escapedContent);
+  } else if(excludeModuleLookup) {
+    output = util.format(TMPL_NO_MODULE_LOOKUP, moduleVar, fileName, escapedContent);
   } else {
     output = util.format(TMPL, moduleVar, fileName, moduleVar, fileName, escapedContent);
   }
